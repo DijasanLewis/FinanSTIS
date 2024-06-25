@@ -5,11 +5,13 @@
 package view;
 
 import controller.ExpenseController;
+import java.util.HashMap;
 import model.Balance;
 import model.Transaction;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.Map;
 /**
  *
  * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
@@ -26,51 +28,109 @@ public class DashboardPanel extends javax.swing.JPanel {
         this.expenseController = expenseController;
         this.currentUserId = currentUserId;
         initComponents();
-        loadData();
+        loadData("30 Hari");
     }
 
     /**
      * Load data dari database dan perbarui tampilan.
      */
-    private void loadData() {
+    private void loadData(String period) {
         System.out.println("Memuat saldo untuk user id: " + currentUserId);
         // Muat saldo
         List<Balance> balances = expenseController.getAllBalances(currentUserId);
-    for (Balance balance : balances) {
-        System.out.println("Saldo ditemukan: " + balance.getCategory() + " - " + balance.getAmount());
-        switch (balance.getCategory()) {
-            case "Tunai":
-                tunaiLabel.setText("  Tunai        : " + balance.getAmount());
-                break;
-            case "Bank":
-                bankLabel.setText("  Bank         : " + balance.getAmount());
-                break;
-            case "E-Money":
-                eMoneyLabel.setText("  E-Money   : " + balance.getAmount());
-                break;
-            case "Lainnya":
-                lainnyaLabel.setText("  Lain-lain   : " + balance.getAmount());
-                break;
-            default:
-                break;
+        for (Balance balance : balances) {
+            System.out.println("Saldo ditemukan: " + balance.getCategory() + " - " + balance.getAmount());
+            switch (balance.getCategory()) {
+                case "Tunai":
+                    tunaiLabel.setText("  Tunai        : " + balance.getAmount());
+                    break;
+                case "Bank":
+                    bankLabel.setText("  Bank         : " + balance.getAmount());
+                    break;
+                case "E-Money":
+                    eMoneyLabel.setText("  E-Money   : " + balance.getAmount());
+                    break;
+                case "Lainnya":
+                    lainnyaLabel.setText("  Lain-lain   : " + balance.getAmount());
+                    break;
+                default:
+                    break;
+            }
         }
-    }
 
         // Muat pengeluaran dan pemasukan
-        List<Transaction> transactions = expenseController.getAllTransactions(currentUserId);
+        List<Transaction> transactions = expenseController.getTransactionsByPeriod(currentUserId, period);
         double totalPengeluaran = 0;
         double totalPemasukan = 0;
+        Map<String, Double> pengeluaranKategori = new HashMap<>();
 
         for (Transaction transaction : transactions) {
             if ("Pengeluaran".equals(transaction.getType())) {
                 totalPengeluaran += transaction.getAmount();
+                pengeluaranKategori.merge(transaction.getCategory(), transaction.getAmount(), Double::sum);
+                System.out.println("Pengeluaran ditemukan: " + transaction.getAmount() + " pada kategori: " + transaction.getCategory());
             } else if ("Pemasukan".equals(transaction.getType())) {
                 totalPemasukan += transaction.getAmount();
+                System.out.println("Pemasukan ditemukan: " + transaction.getAmount() + " pada kategori: " + transaction.getCategory());
             }
         }
 
-        pengeluaranLabel.setText("Pengeluaran: " + totalPengeluaran);
-        // Atur label pemasukan sesuai desain yang diinginkan
+        pengeluaranLabel.setText("Total Pengeluaran: " + totalPengeluaran);
+
+        // Setel ulang label
+        resetCategoryLabels();
+
+        // Update label berdasarkan kategori
+        for (Map.Entry<String, Double> entry : pengeluaranKategori.entrySet()) {
+            String kategori = entry.getKey();
+            double totalKategori = entry.getValue();
+            double persentase = (totalKategori / totalPengeluaran) * 100;
+            String text = String.format("  %-14s: %10.2f (%6.2f%%)", kategori, totalKategori, persentase);
+
+            switch (kategori) {
+                case "Makanan":
+                    makananLabel.setText(text);
+                    break;
+                case "Tagihan":
+                    tagihanLabel.setText(text);
+                    break;
+                case "Transportasi":
+                    transportasiLabel.setText(text);
+                    break;
+                case "Hiburan":
+                    hiburanLabel.setText(text);
+                    break;
+                case "Kesehatan":
+                    kesehatanLabel.setText(text);
+                    break;
+                case "Lain-lain":
+                    pengeluaranLainnyaLabel.setText(text);
+                    break;
+                case "Investasi":
+                    investasiLabel.setText(text);
+                    break;
+                case "Sedekah":
+                    sedekahLabel.setText(text);
+                    break;
+                case "Pendidikan":
+                    pendidikanLabel.setText(text);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void resetCategoryLabels() {
+        makananLabel.setText("  Makanan        :");
+        tagihanLabel.setText("  Tagihan          :");
+        transportasiLabel.setText("  Transportasi   :");
+        hiburanLabel.setText("  Hiburan          :");
+        kesehatanLabel.setText("  Kesehatan      :");
+        pengeluaranLainnyaLabel.setText("  Lain-lain          :");
+        investasiLabel.setText("  Investasi         :");
+        sedekahLabel.setText("  Sedekah          :");
+        pendidikanLabel.setText("  Pendidikan     :");
     }
 
     /**
@@ -147,7 +207,7 @@ public class DashboardPanel extends javax.swing.JPanel {
                     .addComponent(tunaiLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(saldoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, saldoPanelLayout.createSequentialGroup()
-                        .addComponent(tambahSaldoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                        .addComponent(tambahSaldoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(transferSaldoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(109, 109, 109))
@@ -203,6 +263,11 @@ public class DashboardPanel extends javax.swing.JPanel {
         pendidikanLabel.setText("  Pendidikan     :");
 
         periodePengeluaranComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hari Ini", "7 Hari", "30 hari" }));
+        periodePengeluaranComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                periodePengeluaranComboBoxActionPerformed(evt);
+            }
+        });
 
         tambahPengeluaranButton.setText("TAMBAH PENGELUARAN");
         tambahPengeluaranButton.addActionListener(new java.awt.event.ActionListener() {
@@ -218,25 +283,22 @@ public class DashboardPanel extends javax.swing.JPanel {
             .addGroup(pengeluaranPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(investasiLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sedekahLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pendidikanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(hiburanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(transportasiLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(makananLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tambahPengeluaranButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(kesehatanLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pengeluaranLainnyaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pengeluaranPanelLayout.createSequentialGroup()
-                        .addGroup(pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pengeluaranPanelLayout.createSequentialGroup()
-                                .addComponent(pengeluaranLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(periodePengeluaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(kesehatanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(hiburanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(transportasiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(tagihanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(makananLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(pengeluaranLainnyaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(investasiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(sedekahLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(pendidikanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(pengeluaranLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(periodePengeluaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(tagihanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(42, 42, 42))
         );
         pengeluaranPanelLayout.setVerticalGroup(
             pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,7 +308,7 @@ public class DashboardPanel extends javax.swing.JPanel {
                     .addComponent(pengeluaranLabel)
                     .addComponent(periodePengeluaranComboBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(makananLabel)
+                .addComponent(makananLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tagihanLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -310,14 +372,13 @@ public class DashboardPanel extends javax.swing.JPanel {
         finanSTISPanelLayout.setHorizontalGroup(
             finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(finanSTISPanelLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(40, Short.MAX_VALUE)
                 .addGroup(finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(finanSTISLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
-                    .addGroup(finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(buatLaporanPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pengeluaranPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(saldoPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(finanSTISLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                    .addComponent(buatLaporanPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pengeluaranPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(saldoPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         finanSTISPanelLayout.setVerticalGroup(
             finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,10 +400,10 @@ public class DashboardPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(54, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,6 +420,13 @@ public class DashboardPanel extends javax.swing.JPanel {
     private void exportPDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_exportPDFButtonActionPerformed
+
+    private void periodePengeluaranComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_periodePengeluaranComboBoxActionPerformed
+        // TODO add your handling code here:
+        String selectedPeriod = (String) periodePengeluaranComboBox.getSelectedItem();
+        System.out.println("Periode Pengeluaran Dipilih: " + selectedPeriod);
+        loadData(selectedPeriod);
+    }//GEN-LAST:event_periodePengeluaranComboBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

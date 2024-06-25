@@ -39,4 +39,8 @@ public class ExpenseController {
     public List<Transaction> getAllTransactions(int userId) {
         return databaseOperations.getAllTransactions(userId);
     }
+    
+    public List<Transaction> getTransactionsByPeriod(int userId, String period) {
+        return databaseOperations.getTransactionsByPeriod(userId, period);
+    }
 }

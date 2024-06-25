@@ -16,10 +16,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="543" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="54" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -43,14 +43,14 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace pref="30" max="32767" attributes="0"/>
+                      <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="finanSTISLabel" pref="480" max="32767" attributes="0"/>
+                          <Component id="finanSTISLabel" pref="483" max="32767" attributes="0"/>
                           <Component id="buatLaporanPanel" alignment="0" max="32767" attributes="0"/>
                           <Component id="pengeluaranPanel" alignment="0" max="32767" attributes="0"/>
                           <Component id="saldoPanel" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="31" max="32767" attributes="0"/>
+                      <EmptySpace pref="56" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -94,7 +94,7 @@
                               <Component id="tunaiLabel" alignment="1" max="32767" attributes="0"/>
                               <Component id="saldoLabel" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="tambahSaldoButton" pref="126" max="32767" attributes="0"/>
+                                  <Component id="tambahSaldoButton" pref="128" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="transferSaldoButton" min="-2" pref="233" max="-2" attributes="0"/>
                               </Group>
@@ -187,30 +187,24 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="investasiLabel" max="32767" attributes="0"/>
+                              <Component id="sedekahLabel" max="32767" attributes="0"/>
+                              <Component id="pendidikanLabel" max="32767" attributes="0"/>
+                              <Component id="hiburanLabel" max="32767" attributes="0"/>
+                              <Component id="transportasiLabel" max="32767" attributes="0"/>
+                              <Component id="makananLabel" max="32767" attributes="0"/>
                               <Component id="tambahPengeluaranButton" max="32767" attributes="0"/>
+                              <Component id="kesehatanLabel" alignment="1" max="32767" attributes="0"/>
+                              <Component id="pengeluaranLainnyaLabel" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="pengeluaranLabel" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="periodePengeluaranComboBox" min="-2" pref="102" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                          <Component id="kesehatanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                          <Component id="hiburanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                          <Component id="transportasiLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                          <Component id="tagihanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                          <Component id="makananLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                          <Component id="pengeluaranLainnyaLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                          <Component id="investasiLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                          <Component id="sedekahLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                          <Component id="pendidikanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <Component id="pengeluaranLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="periodePengeluaranComboBox" min="-2" pref="102" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
+                              <Component id="tagihanLabel" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -223,7 +217,7 @@
                               <Component id="periodePengeluaranComboBox" alignment="3" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="makananLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="makananLabel" min="-2" pref="20" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="tagihanLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -338,6 +332,9 @@
                       </StringArray>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="periodePengeluaranComboBoxActionPerformed"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>

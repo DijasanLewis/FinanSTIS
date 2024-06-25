@@ -141,4 +141,56 @@ public class DatabaseOperationsImpl implements DatabaseOperations {
 
         return transactions;
     }
+    
+    public List<Transaction> getTransactionsByPeriod(int userId, String period) {
+        List<Transaction> transactions = new ArrayList<>();
+        String sql = "SELECT * FROM transactions WHERE user_id = ? AND date >= ?";
+
+        String currentDate = java.time.LocalDate.now().toString();
+        String startDate;
+
+        switch (period) {
+            case "Hari Ini":
+                startDate = currentDate;
+                break;
+            case "7 Hari":
+                startDate = java.time.LocalDate.now().minusDays(7).toString();
+                break;
+            case "30 Hari":
+            default:
+                startDate = java.time.LocalDate.now().minusDays(30).toString();
+                break;
+        }
+
+        System.out.println("Memuat transaksi untuk user id: " + userId + ", periode: " + period + ", dari tanggal: " + startDate);
+
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, startDate);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Transaction transaction = new Transaction();
+                transaction.setId(rs.getInt("id"));
+                transaction.setType(rs.getString("type"));
+                transaction.setDate(rs.getString("date"));
+                transaction.setCategory(rs.getString("category"));
+                transaction.setAmount(rs.getDouble("amount"));
+                transaction.setDescription(rs.getString("description"));
+                transaction.setBalanceId(rs.getInt("balance_id"));
+                transaction.setUserId(rs.getInt("user_id"));
+                transactions.add(transaction);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("Jumlah transaksi yang ditemukan: " + transactions.size());
+
+        return transactions;
+    }
+
+
+
 }

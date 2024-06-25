@@ -23,4 +23,5 @@ public interface DatabaseOperations {
     void addTransaction(Transaction transaction);
     List<Balance> getAllBalances(int userId);
     List<Transaction> getAllTransactions(int userId);
+    List<Transaction> getTransactionsByPeriod(int userId, String period);
 }
