@@ -4,17 +4,110 @@
  */
 package view;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+
 /**
  *
- * @author yedij
+ * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
  */
 public class FinanSTISApp extends javax.swing.JFrame {
 
     /**
      * Creates new form FinanSTISApp
      */
+    
+    private CardLayout cardLayout;
+    private JPanel mainPanel;
+    
     public FinanSTISApp() {
-        initComponents();
+        setTitle("FinanSTIS");
+        setSize(500, 700);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        initMenuBar();
+        initCardLayout();
+
+        setVisible(true);
+    }
+    
+    private void initMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu menu = new JMenu("Menu");
+        menuBar.add(menu);
+
+        JMenuItem loginMenuItem = new JMenuItem("Login");
+        loginMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                showView("login");
+            }
+        });
+        menu.add(loginMenuItem);
+
+        JMenuItem dashboardMenuItem = new JMenuItem("Dashboard");
+        dashboardMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                showView("dashboard");
+            }
+        });
+        menu.add(dashboardMenuItem);
+
+        JMenuItem pemasukanMenuItem = new JMenuItem("Pemasukan");
+        pemasukanMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                showView("pemasukan");
+            }
+        });
+        menu.add(pemasukanMenuItem);
+
+        JMenuItem pengeluaranMenuItem = new JMenuItem("Pengeluaran");
+        pengeluaranMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                showView("pengeluaran");
+            }
+        });
+        menu.add(pengeluaranMenuItem);
+
+        JMenuItem transferMenuItem = new JMenuItem("Transfer");
+        transferMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                showView("transfer");
+            }
+        });
+        menu.add(transferMenuItem);
+
+        JMenuItem transaksiMenuItem = new JMenuItem("Transaksi");
+        transaksiMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                showView("transaksi");
+            }
+        });
+        menu.add(transaksiMenuItem);
+
+        setJMenuBar(menuBar);
+    }
+
+    private void initCardLayout() {
+        cardLayout = new CardLayout();
+        mainPanel = new JPanel(cardLayout);
+
+        // Tambahkan semua panel ke mainPanel
+        mainPanel.add(new LoginPanel(), "login");
+        mainPanel.add(new DashboardPanel(), "dashboard");
+        mainPanel.add(new PemasukanPanel(), "pemasukan");
+        mainPanel.add(new PengeluaranPanel(), "pengeluaran");
+        mainPanel.add(new TransferPanel(), "transfer");
+        mainPanel.add(new TransaksiPanel(), "transaksi");
+
+        add(mainPanel);
+    }
+
+    private void showView(String viewName) {
+        cardLayout.show(mainPanel, viewName);
     }
 
     /**
@@ -32,11 +125,11 @@ public class FinanSTISApp extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 319, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 375, Short.MAX_VALUE)
         );
 
         pack();
