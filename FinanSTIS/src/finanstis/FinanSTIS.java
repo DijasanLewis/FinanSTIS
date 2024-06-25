@@ -6,7 +6,7 @@ package finanstis;
 
 /**
  *
- * @author yedij
+ * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
  */
 public class FinanSTIS {
 
