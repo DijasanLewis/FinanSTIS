@@ -16,12 +16,19 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="543" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jScrollPane1" min="-2" pref="629" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="jScrollPane1" pref="666" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -36,20 +43,14 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="finanSTISLabel" pref="457" max="32767" attributes="0"/>
-                          <Component id="pengeluaranPanel" alignment="1" max="32767" attributes="0"/>
+                      <EmptySpace pref="30" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="finanSTISLabel" pref="480" max="32767" attributes="0"/>
                           <Component id="buatLaporanPanel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="pengeluaranPanel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="saldoPanel" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="saldoPanel" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
+                      <EmptySpace pref="31" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -58,18 +59,13 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="finanSTISLabel" min="-2" pref="62" max="-2" attributes="0"/>
-                      <EmptySpace pref="178" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="saldoPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Component id="pengeluaranPanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="buatLaporanPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                          <Component id="saldoPanel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="522" max="32767" attributes="0"/>
-                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -89,8 +85,8 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="lainnyaLabel" max="32767" attributes="0"/>
                               <Component id="eMoneyLabel" alignment="1" max="32767" attributes="0"/>
@@ -98,12 +94,12 @@
                               <Component id="tunaiLabel" alignment="1" max="32767" attributes="0"/>
                               <Component id="saldoLabel" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="tambahSaldoButton" min="-2" pref="187" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                                  <Component id="transferSaldoButton" pref="256" max="32767" attributes="0"/>
+                                  <Component id="tambahSaldoButton" pref="126" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="transferSaldoButton" min="-2" pref="233" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -188,34 +184,31 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="tambahPengeluaranButton" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Component id="pengeluaranLabel" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="periodePengeluaranComboBox" min="-2" pref="102" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="kesehatanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                              <Component id="hiburanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                              <Component id="transportasiLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                              <Component id="tagihanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                              <Component id="makananLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                              <Component id="pengeluaranLainnyaLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                              <Component id="investasiLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                              <Component id="sedekahLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                              <Component id="pendidikanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
-                                          </Group>
+                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                          <Component id="kesehatanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
+                                          <Component id="hiburanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
+                                          <Component id="transportasiLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
+                                          <Component id="tagihanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
+                                          <Component id="makananLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
+                                          <Component id="pengeluaranLainnyaLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
+                                          <Component id="investasiLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
+                                          <Component id="sedekahLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
+                                          <Component id="pendidikanLabel" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="tambahPengeluaranButton" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -268,7 +261,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Makanan        :"/>
+                    <Property name="text" type="java.lang.String" value="  Makanan        :"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="tagihanLabel">
@@ -276,7 +269,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Tagihan          :"/>
+                    <Property name="text" type="java.lang.String" value="  Tagihan          :"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="transportasiLabel">
@@ -284,7 +277,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Transportasi   :"/>
+                    <Property name="text" type="java.lang.String" value="  Transportasi   :"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="hiburanLabel">
@@ -292,7 +285,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Hiburan          :"/>
+                    <Property name="text" type="java.lang.String" value="  Hiburan          :"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="kesehatanLabel">
@@ -300,7 +293,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Kesehatan      :"/>
+                    <Property name="text" type="java.lang.String" value="  Kesehatan      :"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="pengeluaranLainnyaLabel">
@@ -308,7 +301,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Lain-lain          :"/>
+                    <Property name="text" type="java.lang.String" value="  Lain-lain          :"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="investasiLabel">
@@ -316,7 +309,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Investasi         :"/>
+                    <Property name="text" type="java.lang.String" value="  Investasi         :"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="sedekahLabel">
@@ -324,7 +317,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Sedekah          :"/>
+                    <Property name="text" type="java.lang.String" value="  Sedekah          :"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="pendidikanLabel">
@@ -332,7 +325,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Pendidikan     :"/>
+                    <Property name="text" type="java.lang.String" value="  Pendidikan     :"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="periodePengeluaranComboBox">
@@ -364,34 +357,30 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="buatLaporanLabel" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="buatLaporanLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="exportCSVButton" min="-2" pref="180" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="exportPDFButton" min="-2" pref="180" max="-2" attributes="0"/>
+                                  <Component id="exportCSVButton" min="-2" pref="223" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                                  <Component id="exportPDFButton" min="-2" pref="222" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="buatLaporanLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="exportCSVButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="exportPDFButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

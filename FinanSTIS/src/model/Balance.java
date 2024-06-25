@@ -8,20 +8,25 @@ package model;
  *
  * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
  */
-// Kelas untuk merepresentasikan saldo
+
+/**
+ * Kelas untuk merepresentasikan saldo.
+ */
 public class Balance {
     private int id;
     private String category;
     private double amount;
+    private int userId; // Tambahkan atribut userId
 
     // Konstruktor default
     public Balance() {}
 
     // Konstruktor dengan parameter
-    public Balance(int id, String category, double amount) {
+    public Balance(int id, String category, double amount, int userId) {
         this.id = id;
         this.category = category;
         this.amount = amount;
+        this.userId = userId;
     }
 
     // Getter dan Setter untuk setiap atribut
@@ -47,5 +52,13 @@ public class Balance {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

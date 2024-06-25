@@ -4,17 +4,73 @@
  */
 package view;
 
+import controller.ExpenseController;
+import model.Balance;
+import model.Transaction;
+
+import javax.swing.*;
+import java.util.List;
 /**
  *
  * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
  */
 public class DashboardPanel extends javax.swing.JPanel {
 
+    private ExpenseController expenseController;
+    private int currentUserId;
+
     /**
      * Creates new form DashboardPanel
      */
-    public DashboardPanel() {
+    public DashboardPanel(ExpenseController expenseController, int currentUserId) {
+        this.expenseController = expenseController;
+        this.currentUserId = currentUserId;
         initComponents();
+        loadData();
+    }
+
+    /**
+     * Load data dari database dan perbarui tampilan.
+     */
+    private void loadData() {
+        System.out.println("Memuat saldo untuk user id: " + currentUserId);
+        // Muat saldo
+        List<Balance> balances = expenseController.getAllBalances(currentUserId);
+    for (Balance balance : balances) {
+        System.out.println("Saldo ditemukan: " + balance.getCategory() + " - " + balance.getAmount());
+        switch (balance.getCategory()) {
+            case "Tunai":
+                tunaiLabel.setText("  Tunai        : " + balance.getAmount());
+                break;
+            case "Bank":
+                bankLabel.setText("  Bank         : " + balance.getAmount());
+                break;
+            case "E-Money":
+                eMoneyLabel.setText("  E-Money   : " + balance.getAmount());
+                break;
+            case "Lainnya":
+                lainnyaLabel.setText("  Lain-lain   : " + balance.getAmount());
+                break;
+            default:
+                break;
+        }
+    }
+
+        // Muat pengeluaran dan pemasukan
+        List<Transaction> transactions = expenseController.getAllTransactions(currentUserId);
+        double totalPengeluaran = 0;
+        double totalPemasukan = 0;
+
+        for (Transaction transaction : transactions) {
+            if ("Pengeluaran".equals(transaction.getType())) {
+                totalPengeluaran += transaction.getAmount();
+            } else if ("Pemasukan".equals(transaction.getType())) {
+                totalPemasukan += transaction.getAmount();
+            }
+        }
+
+        pengeluaranLabel.setText("Pengeluaran: " + totalPengeluaran);
+        // Atur label pemasukan sesuai desain yang diinginkan
     }
 
     /**
@@ -82,8 +138,8 @@ public class DashboardPanel extends javax.swing.JPanel {
         saldoPanel.setLayout(saldoPanelLayout);
         saldoPanelLayout.setHorizontalGroup(
             saldoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, saldoPanelLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(saldoPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(saldoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lainnyaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(eMoneyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -91,10 +147,10 @@ public class DashboardPanel extends javax.swing.JPanel {
                     .addComponent(tunaiLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(saldoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, saldoPanelLayout.createSequentialGroup()
-                        .addComponent(tambahSaldoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(transferSaldoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(tambahSaldoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(transferSaldoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(109, 109, 109))
         );
         saldoPanelLayout.setVerticalGroup(
             saldoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,31 +176,31 @@ public class DashboardPanel extends javax.swing.JPanel {
         pengeluaranLabel.setText("Pengeluaran");
 
         makananLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        makananLabel.setText("Makanan        :");
+        makananLabel.setText("  Makanan        :");
 
         tagihanLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        tagihanLabel.setText("Tagihan          :");
+        tagihanLabel.setText("  Tagihan          :");
 
         transportasiLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        transportasiLabel.setText("Transportasi   :");
+        transportasiLabel.setText("  Transportasi   :");
 
         hiburanLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        hiburanLabel.setText("Hiburan          :");
+        hiburanLabel.setText("  Hiburan          :");
 
         kesehatanLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        kesehatanLabel.setText("Kesehatan      :");
+        kesehatanLabel.setText("  Kesehatan      :");
 
         pengeluaranLainnyaLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        pengeluaranLainnyaLabel.setText("Lain-lain          :");
+        pengeluaranLainnyaLabel.setText("  Lain-lain          :");
 
         investasiLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        investasiLabel.setText("Investasi         :");
+        investasiLabel.setText("  Investasi         :");
 
         sedekahLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        sedekahLabel.setText("Sedekah          :");
+        sedekahLabel.setText("  Sedekah          :");
 
         pendidikanLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        pendidikanLabel.setText("Pendidikan     :");
+        pendidikanLabel.setText("  Pendidikan     :");
 
         periodePengeluaranComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hari Ini", "7 Hari", "30 hari" }));
 
@@ -160,28 +216,26 @@ public class DashboardPanel extends javax.swing.JPanel {
         pengeluaranPanelLayout.setHorizontalGroup(
             pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pengeluaranPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(16, 16, 16)
                 .addGroup(pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tambahPengeluaranButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pengeluaranPanelLayout.createSequentialGroup()
                         .addGroup(pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pengeluaranPanelLayout.createSequentialGroup()
                                 .addComponent(pengeluaranLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(periodePengeluaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pengeluaranPanelLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(kesehatanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(hiburanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(transportasiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tagihanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(makananLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(pengeluaranLainnyaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(investasiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(sedekahLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(pendidikanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(tambahPengeluaranButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(kesehatanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(hiburanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(transportasiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tagihanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(makananLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(pengeluaranLainnyaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(investasiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(sedekahLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(pendidikanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pengeluaranPanelLayout.setVerticalGroup(
@@ -230,28 +284,25 @@ public class DashboardPanel extends javax.swing.JPanel {
         buatLaporanPanel.setLayout(buatLaporanPanelLayout);
         buatLaporanPanelLayout.setHorizontalGroup(
             buatLaporanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(buatLaporanPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(buatLaporanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buatLaporanPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(buatLaporanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(buatLaporanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(buatLaporanPanelLayout.createSequentialGroup()
-                        .addComponent(buatLaporanLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(buatLaporanPanelLayout.createSequentialGroup()
-                        .addComponent(exportCSVButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(exportPDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(exportCSVButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(exportPDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         buatLaporanPanelLayout.setVerticalGroup(
             buatLaporanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(buatLaporanPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buatLaporanLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(buatLaporanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(exportCSVButton)
-                    .addComponent(exportPDFButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(exportPDFButton)))
         );
 
         javax.swing.GroupLayout finanSTISPanelLayout = new javax.swing.GroupLayout(finanSTISPanel);
@@ -259,33 +310,27 @@ public class DashboardPanel extends javax.swing.JPanel {
         finanSTISPanelLayout.setHorizontalGroup(
             finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(finanSTISPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(finanSTISLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
-                    .addComponent(pengeluaranPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buatLaporanPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(finanSTISPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(saldoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(finanSTISLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                    .addGroup(finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(buatLaporanPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pengeluaranPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saldoPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         finanSTISPanelLayout.setVerticalGroup(
             finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(finanSTISPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(finanSTISLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(saldoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
                 .addComponent(pengeluaranPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buatLaporanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(143, 143, 143))
-            .addGroup(finanSTISPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(finanSTISPanelLayout.createSequentialGroup()
-                    .addGap(70, 70, 70)
-                    .addComponent(saldoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(522, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jScrollPane1.setViewportView(finanSTISPanel);
@@ -294,11 +339,16 @@ public class DashboardPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

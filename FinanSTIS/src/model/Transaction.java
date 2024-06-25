@@ -8,7 +8,10 @@ package model;
  *
  * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
  */
-// Kelas untuk merepresentasikan transaksi
+
+/**
+ * Kelas untuk merepresentasikan transaksi.
+ */
 public class Transaction {
     private int id;
     private String type;
@@ -17,12 +20,13 @@ public class Transaction {
     private double amount;
     private String description;
     private int balanceId;
+    private int userId;
 
     // Konstruktor default
     public Transaction() {}
 
     // Konstruktor dengan parameter
-    public Transaction(int id, String type, String date, String category, double amount, String description, int balanceId) {
+    public Transaction(int id, String type, String date, String category, double amount, String description, int balanceId, int userId) {
         this.id = id;
         this.type = type;
         this.date = date;
@@ -30,6 +34,7 @@ public class Transaction {
         this.amount = amount;
         this.description = description;
         this.balanceId = balanceId;
+        this.userId = userId;
     }
 
     // Getter dan Setter untuk setiap atribut
@@ -87,5 +92,13 @@ public class Transaction {
 
     public void setBalanceId(int balanceId) {
         this.balanceId = balanceId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

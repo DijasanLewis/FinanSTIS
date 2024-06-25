@@ -4,9 +4,9 @@
  */
 package view;
 
+import controller.DatabaseOperationsImpl;
+import controller.ExpenseController;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -22,12 +22,16 @@ public class FinanSTISApp extends javax.swing.JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private boolean isLoggedIn = false;
-
+    private int currentUser = -1;
+    private ExpenseController expenseController;
+    
     public FinanSTISApp() {
         setTitle("FinanSTIS");
-        setSize(800, 600);
+        setSize(600, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        expenseController = new ExpenseController(new DatabaseOperationsImpl());
 
         initMenuBar();
         initCardLayout();
@@ -36,89 +40,15 @@ public class FinanSTISApp extends javax.swing.JFrame {
     }
 
     private void initMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-
-        JMenu menu = new JMenu("Menu");
-        menuBar.add(menu);
-
-        JMenuItem loginMenuItem = new JMenuItem("Login");
-        loginMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                showView("login");
-            }
-        });
-        menu.add(loginMenuItem);
-
-        JMenuItem dashboardMenuItem = new JMenuItem("Dashboard");
-        dashboardMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                if (isLoggedIn) {
-                    showView("dashboard");
-                } else {
-                    JOptionPane.showMessageDialog(FinanSTISApp.this, "Anda harus login terlebih dahulu!", "Akses Ditolak", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
-        menu.add(dashboardMenuItem);
-
-        JMenuItem pemasukanMenuItem = new JMenuItem("Pemasukan");
-        pemasukanMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                if (isLoggedIn) {
-                    showView("pemasukan");
-                } else {
-                    JOptionPane.showMessageDialog(FinanSTISApp.this, "Anda harus login terlebih dahulu!", "Akses Ditolak", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
-        menu.add(pemasukanMenuItem);
-
-        JMenuItem pengeluaranMenuItem = new JMenuItem("Pengeluaran");
-        pengeluaranMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                if (isLoggedIn) {
-                    showView("pengeluaran");
-                } else {
-                    JOptionPane.showMessageDialog(FinanSTISApp.this, "Anda harus login terlebih dahulu!", "Akses Ditolak", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
-        menu.add(pengeluaranMenuItem);
-
-        JMenuItem transferMenuItem = new JMenuItem("Transfer");
-        transferMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                if (isLoggedIn) {
-                    showView("transfer");
-                } else {
-                    JOptionPane.showMessageDialog(FinanSTISApp.this, "Anda harus login terlebih dahulu!", "Akses Ditolak", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
-        menu.add(transferMenuItem);
-
-        JMenuItem transaksiMenuItem = new JMenuItem("Transaksi");
-        transaksiMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                if (isLoggedIn) {
-                    showView("transaksi");
-                } else {
-                    JOptionPane.showMessageDialog(FinanSTISApp.this, "Anda harus login terlebih dahulu!", "Akses Ditolak", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
-        menu.add(transaksiMenuItem);
-
-        setJMenuBar(menuBar);
+        setJMenuBar(MenuFactory.createMenuBar(this));
     }
 
     private void initCardLayout() {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Tambahkan semua panel ke mainPanel
+        // Tambahkan panel ke mainPanel
         mainPanel.add(new LoginPanel(this), "login");
-        mainPanel.add(new DashboardPanel(), "dashboard");
         mainPanel.add(new PemasukanPanel(), "pemasukan");
         mainPanel.add(new PengeluaranPanel(), "pengeluaran");
         mainPanel.add(new TransferPanel(), "transfer");
@@ -127,14 +57,34 @@ public class FinanSTISApp extends javax.swing.JFrame {
         add(mainPanel);
     }
 
+    // Set status login
     public void setLoggedIn(boolean loggedIn) {
         this.isLoggedIn = loggedIn;
     }
 
-    public void showView(String viewName) {
-        cardLayout.show(mainPanel, viewName);
+    // Get status login
+    public boolean isLoggedIn() {
+        return isLoggedIn;
     }
 
+    // Set ID pengguna saat ini
+    public void setCurrentUser(int userId) {
+        this.currentUser = userId;
+    }
+
+    // Get ID pengguna saat ini
+    public int getCurrentUser() {
+        return currentUser;
+    }
+
+    // Tampilkan view berdasarkan nama view
+    public void showView(String viewName) {
+        if (viewName.equals("dashboard")) {
+            mainPanel.add(new DashboardPanel(expenseController, currentUser), "dashboard");
+        }
+        cardLayout.show(mainPanel, viewName);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -163,36 +113,8 @@ public class FinanSTISApp extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FinanSTISApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FinanSTISApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FinanSTISApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FinanSTISApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FinanSTISApp().setVisible(true);
-            }
-        });
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new FinanSTISApp());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
