@@ -12,6 +12,7 @@ import util.DatabaseHelper;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import model.User;
 
 /**
  *
@@ -135,4 +136,37 @@ public class ExpenseController {
 
         return transactions;
     }
+    
+    // Method untuk daftar pengguna baru
+    public boolean registerUser(String username, String password) {
+        String sql = "INSERT INTO users(username, password) VALUES(?, ?)";
+
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+    
+    // Method untuk pengguna login
+    public boolean loginUser(String username, String password) {
+        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+    
 }

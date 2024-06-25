@@ -21,10 +21,11 @@ public class FinanSTISApp extends javax.swing.JFrame {
     
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    
+    private boolean isLoggedIn = false;
+
     public FinanSTISApp() {
         setTitle("FinanSTIS");
-        setSize(500, 700);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -33,7 +34,7 @@ public class FinanSTISApp extends javax.swing.JFrame {
 
         setVisible(true);
     }
-    
+
     private void initMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
@@ -51,7 +52,11 @@ public class FinanSTISApp extends javax.swing.JFrame {
         JMenuItem dashboardMenuItem = new JMenuItem("Dashboard");
         dashboardMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                showView("dashboard");
+                if (isLoggedIn) {
+                    showView("dashboard");
+                } else {
+                    JOptionPane.showMessageDialog(FinanSTISApp.this, "Anda harus login terlebih dahulu!", "Akses Ditolak", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         menu.add(dashboardMenuItem);
@@ -59,7 +64,11 @@ public class FinanSTISApp extends javax.swing.JFrame {
         JMenuItem pemasukanMenuItem = new JMenuItem("Pemasukan");
         pemasukanMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                showView("pemasukan");
+                if (isLoggedIn) {
+                    showView("pemasukan");
+                } else {
+                    JOptionPane.showMessageDialog(FinanSTISApp.this, "Anda harus login terlebih dahulu!", "Akses Ditolak", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         menu.add(pemasukanMenuItem);
@@ -67,7 +76,11 @@ public class FinanSTISApp extends javax.swing.JFrame {
         JMenuItem pengeluaranMenuItem = new JMenuItem("Pengeluaran");
         pengeluaranMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                showView("pengeluaran");
+                if (isLoggedIn) {
+                    showView("pengeluaran");
+                } else {
+                    JOptionPane.showMessageDialog(FinanSTISApp.this, "Anda harus login terlebih dahulu!", "Akses Ditolak", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         menu.add(pengeluaranMenuItem);
@@ -75,7 +88,11 @@ public class FinanSTISApp extends javax.swing.JFrame {
         JMenuItem transferMenuItem = new JMenuItem("Transfer");
         transferMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                showView("transfer");
+                if (isLoggedIn) {
+                    showView("transfer");
+                } else {
+                    JOptionPane.showMessageDialog(FinanSTISApp.this, "Anda harus login terlebih dahulu!", "Akses Ditolak", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         menu.add(transferMenuItem);
@@ -83,7 +100,11 @@ public class FinanSTISApp extends javax.swing.JFrame {
         JMenuItem transaksiMenuItem = new JMenuItem("Transaksi");
         transaksiMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                showView("transaksi");
+                if (isLoggedIn) {
+                    showView("transaksi");
+                } else {
+                    JOptionPane.showMessageDialog(FinanSTISApp.this, "Anda harus login terlebih dahulu!", "Akses Ditolak", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         menu.add(transaksiMenuItem);
@@ -96,7 +117,7 @@ public class FinanSTISApp extends javax.swing.JFrame {
         mainPanel = new JPanel(cardLayout);
 
         // Tambahkan semua panel ke mainPanel
-        mainPanel.add(new LoginPanel(), "login");
+        mainPanel.add(new LoginPanel(this), "login");
         mainPanel.add(new DashboardPanel(), "dashboard");
         mainPanel.add(new PemasukanPanel(), "pemasukan");
         mainPanel.add(new PengeluaranPanel(), "pengeluaran");
@@ -106,7 +127,11 @@ public class FinanSTISApp extends javax.swing.JFrame {
         add(mainPanel);
     }
 
-    private void showView(String viewName) {
+    public void setLoggedIn(boolean loggedIn) {
+        this.isLoggedIn = loggedIn;
+    }
+
+    public void showView(String viewName) {
         cardLayout.show(mainPanel, viewName);
     }
 
