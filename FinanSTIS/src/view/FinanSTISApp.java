@@ -22,7 +22,7 @@ public class FinanSTISApp extends javax.swing.JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private boolean isLoggedIn = false;
-    private int currentUser = -1;
+    private int currentUser;
     private ExpenseController expenseController;
     private DashboardPanel dashboardPanel;
     private PemasukanPanel pemasukanPanel;

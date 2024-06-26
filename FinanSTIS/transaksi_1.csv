@@ -1,0 +1,39 @@
+Tipe,Tanggal,Kategori Pengeluaran,Jumlah,Deskripsi,Sumber
+Pengeluaran,2024-06-26,Makanan,50000,000000,Makan siang,Tunai
+Pengeluaran,2024-06-25,Transportasi,20000,000000,Ojek online,Bank
+Pemasukan,2024-06-24,Gaji,5000000,000000,Gaji bulan Juni,E-Money
+Pengeluaran,2024-06-23,Tagihan,100000,000000,Tagihan listrik,Investasi
+Pengeluaran,2024-06-22,Hiburan,30000,000000,Nonton film,Tunai
+Pengeluaran,2024-06-21,Makanan,45000,000000,Makan malam,Tunai
+Pengeluaran,2024-06-19,Sedekah,25000,000000,Sedekah Jumat,Lainnya
+Pengeluaran,2024-06-18,Pendidikan,150000,000000,Buku kuliah,Tunai
+Pengeluaran,2024-06-17,Transportasi,20000,000000,Bus,Bank
+Pengeluaran,2024-06-16,Lainnya,60000,000000,Hadiah,Investasi
+Pengeluaran,2024-06-14,Kesehatan,75000,000000,Obat-obatan,Lainnya
+Pengeluaran,2024-06-13,Makanan,30000,000000,Sarapan,Tunai
+Pengeluaran,2024-06-12,Tagihan,90000,000000,Tagihan air,Investasi
+Pengeluaran,2024-06-10,Hiburan,40000,000000,Karaoke,Tunai
+Pengeluaran,2024-06-09,Makanan,35000,000000,Makan siang,Tunai
+Pemasukan,2024-06-08,Bonus,1500000,000000,Bonus proyek,E-Money
+Pengeluaran,2024-06-07,Transportasi,20000,000000,Taksi,Bank
+Pengeluaran,2024-06-06,Makanan,50000,000000,Makan malam,Tunai
+Pengeluaran,2024-06-05,Tagihan,110000,000000,Tagihan internet,Investasi
+Pengeluaran,2024-06-04,Kesehatan,40000,000000,Vitamin,Lainnya
+Pengeluaran,2024-06-02,Makanan,45000,000000,Makan siang,Tunai
+Pengeluaran,2024-06-01,Transportasi,15000,000000,Bus,Bank
+Pengeluaran,2024-05-31,Sedekah,20000,000000,Sedekah Jumat,Lainnya
+Pemasukan,2024-05-30,Investasi,3000000,000000,Keuntungan saham,E-Money
+Pengeluaran,2024-05-29,Hiburan,50000,000000,Nonton bioskop,Tunai
+Pengeluaran,2024-05-28,Pendidikan,100000,000000,Biaya kursus,Tunai
+Pengeluaran,2024-06-26,Makanan,15000,000000,Makan Ayam,N/A
+Pengeluaran,2024-06-26,Investasi,300000,000000,Invest crypto,N/A
+Pemasukan,2024-06-26,Bank,50500,000000,keuntungan investasi,N/A
+Pemasukan,2024-06-26,Lainnya,55500,000000,keuntungan investasi crypto,N/A
+Pemasukan,2024-06-26,Tunai,255000,000000,uang ayah,N/A
+Pemasukan,2024-06-26,Tunai,55000,000000,uang ibu,Tunai
+Pengeluaran,2024-06-26,Transportasi,12000,000000,uang angkot,N/A
+Pemasukan,2024-06-26,Tunai,500,000000,uang adek,Tunai
+Pengeluaran,2024-06-26,Transportasi,12500,000000,uang angkot,N/A
+Pemasukan,2024-06-26,E-Money,25500,000000,uang dari sepupu,E-Money
+Transfer,2024-06-26,Lainnya,6000,000000,Transfer dari E-Money ke Lainnya,Lainnya
+Pengeluaran,2024-06-26,Biaya Admin,500,000000,Biaya Admin Transfer dari E-Money ke Lainnya,E-Money

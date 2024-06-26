@@ -12,6 +12,9 @@ import model.Transaction;
 import javax.swing.*;
 import java.util.List;
 import java.util.Map;
+
+import java.io.FileWriter;
+import java.io.IOException;
 /**
  *
  * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
@@ -105,7 +108,7 @@ public class DashboardPanel extends javax.swing.JPanel {
                 case "Kesehatan":
                     kesehatanLabel.setText(text);
                     break;
-                case "Lain-lain":
+                case "Lainnya":
                     pengeluaranLainnyaLabel.setText(text);
                     break;
                 case "Investasi":
@@ -171,7 +174,6 @@ public class DashboardPanel extends javax.swing.JPanel {
         buatLaporanPanel = new javax.swing.JPanel();
         buatLaporanLabel = new javax.swing.JLabel();
         exportCSVButton = new javax.swing.JButton();
-        exportPDFButton = new javax.swing.JButton();
 
         finanSTISLabel.setFont(new java.awt.Font("Ravie", 1, 36)); // NOI18N
         finanSTISLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -346,11 +348,9 @@ public class DashboardPanel extends javax.swing.JPanel {
         buatLaporanLabel.setText("Buat Laporan");
 
         exportCSVButton.setText("Ekspor ke CSV");
-
-        exportPDFButton.setText("Ekspor ke PDF");
-        exportPDFButton.addActionListener(new java.awt.event.ActionListener() {
+        exportCSVButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportPDFButtonActionPerformed(evt);
+                exportCSVButtonActionPerformed(evt);
             }
         });
 
@@ -358,25 +358,21 @@ public class DashboardPanel extends javax.swing.JPanel {
         buatLaporanPanel.setLayout(buatLaporanPanelLayout);
         buatLaporanPanelLayout.setHorizontalGroup(
             buatLaporanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buatLaporanPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(buatLaporanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buatLaporanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(buatLaporanPanelLayout.createSequentialGroup()
-                        .addComponent(exportCSVButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(exportPDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(buatLaporanPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(buatLaporanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buatLaporanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+                    .addComponent(exportCSVButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         buatLaporanPanelLayout.setVerticalGroup(
             buatLaporanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(buatLaporanPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(buatLaporanLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(buatLaporanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(exportCSVButton)
-                    .addComponent(exportPDFButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exportCSVButton)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout finanSTISPanelLayout = new javax.swing.GroupLayout(finanSTISPanel);
@@ -430,9 +426,10 @@ public class DashboardPanel extends javax.swing.JPanel {
         mainApp.showView("pengeluaran");
     }//GEN-LAST:event_tambahPengeluaranButtonActionPerformed
 
-    private void exportPDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFButtonActionPerformed
+    private void exportCSVButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportCSVButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_exportPDFButtonActionPerformed
+        exportToCSV();
+    }//GEN-LAST:event_exportCSVButtonActionPerformed
 
     private void periodePengeluaranComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_periodePengeluaranComboBoxActionPerformed
         // TODO add your handling code here:
@@ -451,14 +448,38 @@ public class DashboardPanel extends javax.swing.JPanel {
         mainApp.showView("transfer");
     }//GEN-LAST:event_transferSaldoButtonActionPerformed
 
+    private void exportToCSV() {
+        List<Transaction> transactions = expenseController.getAllTransactions(currentUserId);
+        String filePath = "transaksi_" + currentUserId + ".csv";
 
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write("Tipe,Tanggal,Kategori Pengeluaran,Jumlah,Deskripsi,Sumber\n");
+
+            for (Transaction transaction : transactions) {
+                String line = String.format("%s,%s,%s,%f,%s,%s\n",
+                    transaction.getType(),
+                    transaction.getDate(),
+                    transaction.getCategory(),
+                    transaction.getAmount(),
+                    transaction.getDescription(),
+                    expenseController.getCategoryByBalanceId(transaction.getBalanceId())
+                );
+                writer.write(line);
+            }
+
+            JOptionPane.showMessageDialog(this, "Transaksi berhasil diekspor ke " + filePath, "Ekspor Sukses", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Gagal mengekspor transaksi. Coba lagi.", "Ekspor Gagal", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bankLabel;
     private javax.swing.JLabel buatLaporanLabel;
     private javax.swing.JPanel buatLaporanPanel;
     private javax.swing.JLabel eMoneyLabel;
     private javax.swing.JButton exportCSVButton;
-    private javax.swing.JButton exportPDFButton;
     private javax.swing.JLabel finanSTISLabel;
     private javax.swing.JPanel finanSTISPanel;
     private javax.swing.JLabel hiburanLabel;

@@ -136,23 +136,23 @@ public class LoginPanel extends javax.swing.JPanel {
     private void daftarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daftarButtonActionPerformed
         // TODO add your handling code here:
         String username = usernameTextField.getText();
-    String password = new String(passwordField.getPassword());
+        String password = new String(passwordField.getPassword());
 
-    String confirmPassword = JOptionPane.showInputDialog(this, "Konfirmasi Password:", "Konfirmasi Password", JOptionPane.PLAIN_MESSAGE);
+        String confirmPassword = JOptionPane.showInputDialog(this, "Konfirmasi Password:", "Konfirmasi Password", JOptionPane.PLAIN_MESSAGE);
 
-    if (password.equals(confirmPassword)) {
-        if (controller.registerUser(username, password)) {
-            int userId = controller.getUserId(username);
-            System.out.println("Daftar berhasil. userId: " + userId);  // Tambahkan log
-            mainApp.setLoggedIn(true);
-            mainApp.setCurrentUser(userId);  // Simpan user_id
-            mainApp.showView("dashboard");
+        if (password.equals(confirmPassword)) {
+            if (controller.registerUser(username, password)) {
+                int userId = controller.getUserId(username);
+                System.out.println("Daftar berhasil. userId: " + userId);  // Tambahkan log
+                mainApp.setLoggedIn(true);
+                mainApp.setCurrentUser(userId);  // Simpan user_id
+                mainApp.showView("dashboard");
+            } else {
+                JOptionPane.showMessageDialog(this, "Pendaftaran gagal. Username mungkin sudah ada.", "Daftar Gagal", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Pendaftaran gagal. Username mungkin sudah ada.", "Daftar Gagal", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Password tidak cocok!", "Konfirmasi Password Gagal", JOptionPane.ERROR_MESSAGE);
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Password tidak cocok!", "Konfirmasi Password Gagal", JOptionPane.ERROR_MESSAGE);
-    }
     }//GEN-LAST:event_daftarButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed

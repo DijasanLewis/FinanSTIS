@@ -176,85 +176,85 @@ public class TransferPanel extends javax.swing.JPanel {
 
     private void catatTransferSaldoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catatTransferSaldoButtonActionPerformed
         // Mendapatkan nilai dari field input
-    String jumlahStr = jumlahTransferTextField.getText();
-    String kategoriDari = (String) kategoriTransferSaldoDariComboBox.getSelectedItem();
-    String kategoriKe = (String) kategoriTransferSaldoKeComboBox.getSelectedItem();
-    java.util.Date tanggalUtil = transferSaldoDateChooser.getDate();
-    String biayaAdminStr = biayaAdminTextField.getText();
+        String jumlahStr = jumlahTransferTextField.getText();
+        String kategoriDari = (String) kategoriTransferSaldoDariComboBox.getSelectedItem();
+        String kategoriKe = (String) kategoriTransferSaldoKeComboBox.getSelectedItem();
+        java.util.Date tanggalUtil = transferSaldoDateChooser.getDate();
+        String biayaAdminStr = biayaAdminTextField.getText();
 
-    // Format tanggal ke string
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    String tanggal = sdf.format(tanggalUtil);
+        // Format tanggal ke string
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String tanggal = sdf.format(tanggalUtil);
 
-    // Validasi input
-    if (jumlahStr.isEmpty() || tanggal == null || kategoriDari.equals(kategoriKe)) {
-        JOptionPane.showMessageDialog(this, "Semua field harus diisi dengan benar!", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    double jumlah;
-    double biayaAdmin = 0;
-    try {
-        jumlah = Double.parseDouble(jumlahStr);
-        biayaAdmin = Double.parseDouble(biayaAdminStr);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Jumlah dan Biaya Admin harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    // Get balance IDs based on categories
-    int balanceIdDari = expenseController.getBalanceIdByCategory(currentUserId, kategoriDari);
-    int balanceIdKe = expenseController.getBalanceIdByCategory(currentUserId, kategoriKe);
-    System.out.println("Balance ID Dari: " + balanceIdDari + ", Balance ID Ke: " + balanceIdKe);
-
-    // Buat transaksi transfer baru
-    Transaction transaksiTransfer = new Transaction();
-    transaksiTransfer.setDescription("Transfer dari " + kategoriDari + " ke " + kategoriKe);
-    transaksiTransfer.setAmount(jumlah);
-    transaksiTransfer.setCategory(kategoriKe);
-    transaksiTransfer.setDate(tanggal);
-    transaksiTransfer.setUserId(currentUserId);
-    transaksiTransfer.setType("Transfer");
-    transaksiTransfer.setBalanceId(balanceIdKe);
-
-    // Update saldo
-    boolean updateDariSuccess = expenseController.updateBalance(balanceIdDari, jumlah, "Pengeluaran");
-    boolean updateKeSuccess = expenseController.updateBalance(balanceIdKe, jumlah, "Pemasukan");
-
-    if (updateDariSuccess && updateKeSuccess) {
-        boolean transferSuccess = expenseController.addTransaction(transaksiTransfer);
-        if (transferSuccess) {
-            // Buat pengeluaran otomatis jika ada biaya admin
-            if (biayaAdmin > 0) {
-                Transaction transaksiAdmin = new Transaction();
-                transaksiAdmin.setDescription("Biaya Admin Transfer dari " + kategoriDari + " ke " + kategoriKe);
-                transaksiAdmin.setAmount(biayaAdmin);
-                transaksiAdmin.setCategory("Lainnya");
-                transaksiAdmin.setDate(tanggal);
-                transaksiAdmin.setUserId(currentUserId);
-                transaksiAdmin.setType("Pengeluaran");
-                transaksiAdmin.setBalanceId(balanceIdDari);
-
-                boolean adminSuccess = expenseController.addTransaction(transaksiAdmin);
-                if (!adminSuccess) {
-                    JOptionPane.showMessageDialog(this, "Gagal mencatat biaya admin. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                boolean updateAdminSuccess = expenseController.updateBalance(balanceIdDari, biayaAdmin, "Pengeluaran");
-                if (!updateAdminSuccess) {
-                    JOptionPane.showMessageDialog(this, "Gagal memperbarui saldo untuk biaya admin. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-            JOptionPane.showMessageDialog(this, "Transfer saldo berhasil dicatat!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            mainApp.getDashboardPanel().loadData("Hari Ini");
-            mainApp.showView("dashboard");
-        } else {
-            JOptionPane.showMessageDialog(this, "Gagal mencatat transfer saldo. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Validasi input
+        if (jumlahStr.isEmpty() || tanggal == null || kategoriDari.equals(kategoriKe)) {
+            JOptionPane.showMessageDialog(this, "Semua field harus diisi dengan benar!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Gagal memperbarui saldo. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+
+        double jumlah;
+        double biayaAdmin = 0;
+        try {
+            jumlah = Double.parseDouble(jumlahStr);
+            biayaAdmin = Double.parseDouble(biayaAdminStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Jumlah dan Biaya Admin harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Get balance IDs based on categories
+        int balanceIdDari = expenseController.getBalanceIdByCategory(currentUserId, kategoriDari);
+        int balanceIdKe = expenseController.getBalanceIdByCategory(currentUserId, kategoriKe);
+        System.out.println("Balance ID Dari: " + balanceIdDari + ", Balance ID Ke: " + balanceIdKe);
+
+        // Buat transaksi transfer baru
+        Transaction transaksiTransfer = new Transaction();
+        transaksiTransfer.setDescription("Transfer dari " + kategoriDari + " ke " + kategoriKe);
+        transaksiTransfer.setAmount(jumlah);
+        transaksiTransfer.setCategory(kategoriKe);
+        transaksiTransfer.setDate(tanggal);
+        transaksiTransfer.setUserId(currentUserId);
+        transaksiTransfer.setType("Transfer");
+        transaksiTransfer.setBalanceId(balanceIdKe);
+
+        // Update saldo
+        boolean updateDariSuccess = expenseController.updateBalance(balanceIdDari, jumlah, "Pengeluaran");
+        boolean updateKeSuccess = expenseController.updateBalance(balanceIdKe, jumlah, "Pemasukan");
+
+        if (updateDariSuccess && updateKeSuccess) {
+            boolean transferSuccess = expenseController.addTransaction(transaksiTransfer);
+            if (transferSuccess) {
+                // Buat pengeluaran otomatis jika ada biaya admin
+                if (biayaAdmin > 0) {
+                    Transaction transaksiAdmin = new Transaction();
+                    transaksiAdmin.setDescription("Biaya Admin Transfer dari " + kategoriDari + " ke " + kategoriKe);
+                    transaksiAdmin.setAmount(biayaAdmin);
+                    transaksiAdmin.setCategory("Lainnya");
+                    transaksiAdmin.setDate(tanggal);
+                    transaksiAdmin.setUserId(currentUserId);
+                    transaksiAdmin.setType("Pengeluaran");
+                    transaksiAdmin.setBalanceId(balanceIdDari);
+
+                    boolean adminSuccess = expenseController.addTransaction(transaksiAdmin);
+                    if (!adminSuccess) {
+                        JOptionPane.showMessageDialog(this, "Gagal mencatat biaya admin. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    boolean updateAdminSuccess = expenseController.updateBalance(balanceIdDari, biayaAdmin, "Pengeluaran");
+                    if (!updateAdminSuccess) {
+                        JOptionPane.showMessageDialog(this, "Gagal memperbarui saldo untuk biaya admin. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+                JOptionPane.showMessageDialog(this, "Transfer saldo berhasil dicatat!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                mainApp.getDashboardPanel().loadData("Hari Ini");
+                mainApp.showView("dashboard");
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal mencatat transfer saldo. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Gagal memperbarui saldo. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_catatTransferSaldoButtonActionPerformed
 
     private void biayaAdminTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_biayaAdminTextFieldActionPerformed
