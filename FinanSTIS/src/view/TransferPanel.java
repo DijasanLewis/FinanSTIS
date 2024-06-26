@@ -202,27 +202,43 @@ public class TransferPanel extends javax.swing.JPanel {
             return;
         }
 
+        System.out.println("Jumlah: " + jumlah + ", Biaya Admin: " + biayaAdmin);
+
         // Get balance IDs based on categories
         int balanceIdDari = expenseController.getBalanceIdByCategory(currentUserId, kategoriDari);
         int balanceIdKe = expenseController.getBalanceIdByCategory(currentUserId, kategoriKe);
         System.out.println("Balance ID Dari: " + balanceIdDari + ", Balance ID Ke: " + balanceIdKe);
 
-        // Buat transaksi transfer baru
-        Transaction transaksiTransfer = new Transaction();
-        transaksiTransfer.setDescription("Transfer dari " + kategoriDari + " ke " + kategoriKe);
-        transaksiTransfer.setAmount(jumlah);
-        transaksiTransfer.setCategory(kategoriKe);
-        transaksiTransfer.setDate(tanggal);
-        transaksiTransfer.setUserId(currentUserId);
-        transaksiTransfer.setType("Transfer");
-        transaksiTransfer.setBalanceId(balanceIdKe);
+        if (balanceIdDari == -1 || balanceIdKe == -1) {
+            JOptionPane.showMessageDialog(this, "Gagal mendapatkan Balance ID. Pastikan saldo tersedia.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-        // Update saldo
+        // Update saldo untuk balance ID dari
         boolean updateDariSuccess = expenseController.updateBalance(balanceIdDari, jumlah, "Pengeluaran");
-        boolean updateKeSuccess = expenseController.updateBalance(balanceIdKe, jumlah, "Pemasukan");
+        boolean updateKeSuccess = false;
+
+        if (updateDariSuccess) {
+            // Update saldo untuk balance ID ke
+            updateKeSuccess = expenseController.updateBalance(balanceIdKe, jumlah, "Pemasukan");
+        }
+
+        System.out.println("Update Dari Success: " + updateDariSuccess + ", Update Ke Success: " + updateKeSuccess);
 
         if (updateDariSuccess && updateKeSuccess) {
+            // Buat transaksi transfer baru
+            Transaction transaksiTransfer = new Transaction();
+            transaksiTransfer.setDescription("Transfer dari " + kategoriDari + " ke " + kategoriKe);
+            transaksiTransfer.setAmount(jumlah);
+            transaksiTransfer.setCategory(kategoriKe);
+            transaksiTransfer.setDate(tanggal);
+            transaksiTransfer.setUserId(currentUserId);
+            transaksiTransfer.setType("Transfer");
+            transaksiTransfer.setBalanceId(balanceIdKe);
+
             boolean transferSuccess = expenseController.addTransaction(transaksiTransfer);
+            System.out.println("Transfer Success: " + transferSuccess);
+
             if (transferSuccess) {
                 // Buat pengeluaran otomatis jika ada biaya admin
                 if (biayaAdmin > 0) {
@@ -236,11 +252,15 @@ public class TransferPanel extends javax.swing.JPanel {
                     transaksiAdmin.setBalanceId(balanceIdDari);
 
                     boolean adminSuccess = expenseController.addTransaction(transaksiAdmin);
+                    System.out.println("Admin Success: " + adminSuccess);
+
                     if (!adminSuccess) {
                         JOptionPane.showMessageDialog(this, "Gagal mencatat biaya admin. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     boolean updateAdminSuccess = expenseController.updateBalance(balanceIdDari, biayaAdmin, "Pengeluaran");
+                    System.out.println("Update Admin Success: " + updateAdminSuccess);
+
                     if (!updateAdminSuccess) {
                         JOptionPane.showMessageDialog(this, "Gagal memperbarui saldo untuk biaya admin. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
                         return;

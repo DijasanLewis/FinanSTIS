@@ -46,7 +46,7 @@ public class PengeluaranPanel extends javax.swing.JPanel {
         tanggalPengeluaranLabel = new javax.swing.JLabel();
         deskripsiPengeluaranTextField = new javax.swing.JTextField();
         jumlahPengeluaranTextField = new javax.swing.JTextField();
-        kategoriPeengeluaranComboBox = new javax.swing.JComboBox<>();
+        kategoriPengeluaranComboBox = new javax.swing.JComboBox<>();
         pengeluaranDateChooser = new com.toedter.calendar.JDateChooser();
         catatPengeluaranButton = new javax.swing.JButton();
         sumberDanaLabel = new javax.swing.JLabel();
@@ -80,7 +80,7 @@ public class PengeluaranPanel extends javax.swing.JPanel {
             }
         });
 
-        kategoriPeengeluaranComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Makanan", "Tagihan", "Transportasi", "Hiburan", "Kesehatan", "Pendidikan", "Sedekah", "Investasi", "Lain-lain" }));
+        kategoriPengeluaranComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Makanan", "Tagihan", "Transportasi", "Hiburan", "Kesehatan", "Pendidikan", "Sedekah", "Investasi", "Lain-lain" }));
 
         catatPengeluaranButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         catatPengeluaranButton.setText("CATAT PENGELUARAN!");
@@ -112,7 +112,7 @@ public class PengeluaranPanel extends javax.swing.JPanel {
                             .addComponent(deskripsiPengeluaranTextField)
                             .addComponent(jumlahPengeluaranTextField)
                             .addGroup(tambahPengeluaranPanelLayout.createSequentialGroup()
-                                .addComponent(kategoriPeengeluaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(kategoriPengeluaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(sumberDanaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(8, 8, 8)
@@ -139,7 +139,7 @@ public class PengeluaranPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tambahPengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(kategoriPengeluaranLabel)
-                    .addComponent(kategoriPeengeluaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kategoriPengeluaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sumberDanaLabel)
                     .addComponent(kategoriSumberComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -185,7 +185,7 @@ public class PengeluaranPanel extends javax.swing.JPanel {
         // Mendapatkan nilai dari field input
         String deskripsi = deskripsiPengeluaranTextField.getText();
         String jumlahStr = jumlahPengeluaranTextField.getText();
-        String kategoriPengeluaran = (String) kategoriPeengeluaranComboBox.getSelectedItem();
+        String kategoriPengeluaran = (String) kategoriPengeluaranComboBox.getSelectedItem();
         String kategoriSumber = (String) kategoriSumberComboBox.getSelectedItem();
         java.util.Date tanggalUtil = pengeluaranDateChooser.getDate();
 
@@ -244,7 +244,7 @@ public class PengeluaranPanel extends javax.swing.JPanel {
     private javax.swing.JTextField deskripsiPengeluaranTextField;
     private javax.swing.JLabel jumlahPengeluaranLabel;
     private javax.swing.JTextField jumlahPengeluaranTextField;
-    private javax.swing.JComboBox<String> kategoriPeengeluaranComboBox;
+    private javax.swing.JComboBox<String> kategoriPengeluaranComboBox;
     private javax.swing.JLabel kategoriPengeluaranLabel;
     private javax.swing.JComboBox<String> kategoriSumberComboBox;
     private com.toedter.calendar.JDateChooser pengeluaranDateChooser;

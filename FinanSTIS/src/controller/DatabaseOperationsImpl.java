@@ -83,27 +83,28 @@ public class DatabaseOperationsImpl implements DatabaseOperations {
             pstmt.setInt(6, transaction.getBalanceId());
             pstmt.setInt(7, transaction.getUserId());
             pstmt.executeUpdate();
-
-            // Update balance
-            return updateBalance(transaction.getBalanceId(), transaction.getAmount(), transaction.getType());
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
         }
     }
 
+
     @Override
     public boolean updateBalance(int balanceId, double amount, String transactionType) {
         String sql = "UPDATE balances SET amount = amount + ? WHERE id = ?";
 
         double updateAmount = transactionType.equals("Pengeluaran") ? -amount : amount;
+        System.out.println("Update Amount: " + updateAmount + " for Balance ID: " + balanceId);
 
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDouble(1, updateAmount);
             pstmt.setInt(2, balanceId);
-            pstmt.executeUpdate();
-            return true;
+            int rowsUpdated = pstmt.executeUpdate();
+            System.out.println("Rows Updated: " + rowsUpdated);
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;

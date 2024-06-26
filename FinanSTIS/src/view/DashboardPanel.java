@@ -35,6 +35,11 @@ public class DashboardPanel extends javax.swing.JPanel {
         initComponents();
         loadData("Hari Ini");
     }
+    
+    public void setCurrentUser(int currentUserId) {
+        this.currentUserId = currentUserId;
+        loadData("Hari Ini");
+    }
 
     /**
      * Load data dari database dan perbarui tampilan.

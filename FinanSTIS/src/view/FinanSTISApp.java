@@ -78,6 +78,7 @@ public class FinanSTISApp extends javax.swing.JFrame {
         if (dashboardPanel == null) {
             dashboardPanel = new DashboardPanel(expenseController, currentUser, this);
         }
+        dashboardPanel.setCurrentUser(currentUser);
         return dashboardPanel;
     }
 

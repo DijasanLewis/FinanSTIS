@@ -29,12 +29,8 @@ public class ExpenseController {
     }
 
     public boolean addTransaction(Transaction transaction) {
-        boolean success = databaseOperations.addTransaction(transaction);
-        if (success) {
-            return updateBalance(transaction.getBalanceId(), transaction.getAmount(), transaction.getType());
-        }
-        return false;
-    }
+    return databaseOperations.addTransaction(transaction);
+}
 
     public boolean updateBalance(int balanceId, double amount, String transactionType) {
         return databaseOperations.updateBalance(balanceId, amount, transactionType);

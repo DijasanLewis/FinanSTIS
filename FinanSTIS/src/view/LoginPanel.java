@@ -158,17 +158,17 @@ public class LoginPanel extends javax.swing.JPanel {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         String username = usernameTextField.getText();
-    String password = new String(passwordField.getPassword());
+        String password = new String(passwordField.getPassword());
 
-    if (controller.loginUser(username, password)) {
-        int userId = controller.getUserId(username);
-        System.out.println("Login berhasil. userId: " + userId);  // Tambahkan log
-        mainApp.setLoggedIn(true);
-        mainApp.setCurrentUser(userId);  // Simpan user_id
-        mainApp.showView("dashboard");
-    } else {
-        JOptionPane.showMessageDialog(this, "Username atau password salah!", "Login Gagal", JOptionPane.ERROR_MESSAGE);
-    }
+        if (controller.loginUser(username, password)) {
+            int userId = controller.getUserId(username);
+            System.out.println("Login berhasil. userId: " + userId);  // Tambahkan log
+            mainApp.setLoggedIn(true);
+            mainApp.setCurrentUser(userId);  // Simpan user_id
+            mainApp.showView("dashboard");
+        } else {
+            JOptionPane.showMessageDialog(this, "Username atau password salah!", "Login Gagal", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
