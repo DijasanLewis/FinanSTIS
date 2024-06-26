@@ -35,7 +35,11 @@ public class TransaksiPanel extends javax.swing.JPanel {
         initComponents();
         loadTransactionData();
     }
-
+    
+    public void setCurrentUser(int currentUserId) {
+        this.currentUserId = currentUserId;
+        loadTransactionData();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

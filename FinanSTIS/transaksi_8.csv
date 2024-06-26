@@ -1,0 +1,7 @@
+Tipe,Tanggal,Kategori Pengeluaran,Jumlah,Deskripsi,Sumber
+Pemasukan,2024-06-26,Bank,1000000,000000,Uang dari orang tua,Bank
+Pemasukan,2024-06-23,Tunai,1500000,000000,Uang dari saudara,Tunai
+Transfer,2024-06-26,E-Money,25000,000000,Transfer dari Bank ke E-Money,E-Money
+Pengeluaran,2024-06-26,Lainnya,2000,000000,Biaya Admin Transfer dari Bank ke E-Money,Bank
+Pengeluaran,2024-06-26,Makanan,17000,000000,Membeli mie ayam,Tunai
+Pengeluaran,2024-06-26,Transportasi,21000,000000,Pergi ke jakarta,E-Money

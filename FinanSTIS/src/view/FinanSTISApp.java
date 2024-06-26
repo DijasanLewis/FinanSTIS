@@ -107,6 +107,7 @@ public class FinanSTISApp extends javax.swing.JFrame {
         if (transaksiPanel == null) {
             transaksiPanel = new TransaksiPanel(expenseController, currentUser);
         }
+        transaksiPanel.setCurrentUser(currentUser);
         return transaksiPanel;
     }
 
