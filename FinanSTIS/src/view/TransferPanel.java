@@ -4,16 +4,28 @@
  */
 package view;
 
+import controller.ExpenseController;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import model.Transaction;
+
 /**
  *
  * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
  */
 public class TransferPanel extends javax.swing.JPanel {
 
+    private ExpenseController expenseController;
+    private FinanSTISApp mainApp;
+    private int currentUserId;
     /**
      * Creates new form TransferPanel
      */
-    public TransferPanel() {
+    
+    public TransferPanel(ExpenseController expenseController, FinanSTISApp mainApp, int currentUserId) {
+        this.expenseController = expenseController;
+        this.mainApp = mainApp;
+        this.currentUserId = currentUserId;
         initComponents();
     }
 
@@ -37,6 +49,8 @@ public class TransferPanel extends javax.swing.JPanel {
         kategoriTransferSaldoKeComboBox = new javax.swing.JComboBox<>();
         biayaAdminLabel = new javax.swing.JLabel();
         biayaAdminTextField = new javax.swing.JTextField();
+        jumlahTransferLabel = new javax.swing.JLabel();
+        jumlahTransferTextField = new javax.swing.JTextField();
 
         transferSaldoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         transferSaldoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -73,15 +87,28 @@ public class TransferPanel extends javax.swing.JPanel {
             }
         });
 
+        jumlahTransferLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jumlahTransferLabel.setText("Jumlah    :");
+
+        jumlahTransferTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jumlahTransferTextFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout transferSaldoPanelLayout = new javax.swing.GroupLayout(transferSaldoPanel);
         transferSaldoPanel.setLayout(transferSaldoPanelLayout);
         transferSaldoPanelLayout.setHorizontalGroup(
             transferSaldoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, transferSaldoPanelLayout.createSequentialGroup()
+            .addGroup(transferSaldoPanelLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addGroup(transferSaldoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(catatTransferSaldoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(transferSaldoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(transferSaldoPanelLayout.createSequentialGroup()
+                        .addComponent(jumlahTransferLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jumlahTransferTextField))
+                    .addComponent(catatTransferSaldoButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, transferSaldoPanelLayout.createSequentialGroup()
                         .addGroup(transferSaldoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(transferSaldoDariLabel)
                             .addComponent(transferSaldoKeLabel)
@@ -99,7 +126,11 @@ public class TransferPanel extends javax.swing.JPanel {
         transferSaldoPanelLayout.setVerticalGroup(
             transferSaldoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(transferSaldoPanelLayout.createSequentialGroup()
-                .addGap(8, 8, 8)
+                .addContainerGap()
+                .addGroup(transferSaldoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jumlahTransferLabel)
+                    .addComponent(jumlahTransferTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(transferSaldoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(transferSaldoPanelLayout.createSequentialGroup()
                         .addComponent(transferSaldoDariLabel)
@@ -118,7 +149,7 @@ public class TransferPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(biayaAdminTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(catatTransferSaldoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(catatTransferSaldoButton)
                 .addContainerGap())
         );
 
@@ -126,36 +157,121 @@ public class TransferPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(transferSaldoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(transferSaldoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(transferSaldoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(transferSaldoPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(transferSaldoLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(transferSaldoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(17, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void catatTransferSaldoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catatTransferSaldoButtonActionPerformed
-        // TODO add your handling code here:
+        // Mendapatkan nilai dari field input
+    String jumlahStr = jumlahTransferTextField.getText();
+    String kategoriDari = (String) kategoriTransferSaldoDariComboBox.getSelectedItem();
+    String kategoriKe = (String) kategoriTransferSaldoKeComboBox.getSelectedItem();
+    java.util.Date tanggalUtil = transferSaldoDateChooser.getDate();
+    String biayaAdminStr = biayaAdminTextField.getText();
+
+    // Format tanggal ke string
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String tanggal = sdf.format(tanggalUtil);
+
+    // Validasi input
+    if (jumlahStr.isEmpty() || tanggal == null || kategoriDari.equals(kategoriKe)) {
+        JOptionPane.showMessageDialog(this, "Semua field harus diisi dengan benar!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    double jumlah;
+    double biayaAdmin = 0;
+    try {
+        jumlah = Double.parseDouble(jumlahStr);
+        biayaAdmin = Double.parseDouble(biayaAdminStr);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Jumlah dan Biaya Admin harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Get balance IDs based on categories
+    int balanceIdDari = expenseController.getBalanceIdByCategory(currentUserId, kategoriDari);
+    int balanceIdKe = expenseController.getBalanceIdByCategory(currentUserId, kategoriKe);
+    System.out.println("Balance ID Dari: " + balanceIdDari + ", Balance ID Ke: " + balanceIdKe);
+
+    // Buat transaksi transfer baru
+    Transaction transaksiTransfer = new Transaction();
+    transaksiTransfer.setDescription("Transfer dari " + kategoriDari + " ke " + kategoriKe);
+    transaksiTransfer.setAmount(jumlah);
+    transaksiTransfer.setCategory(kategoriKe);
+    transaksiTransfer.setDate(tanggal);
+    transaksiTransfer.setUserId(currentUserId);
+    transaksiTransfer.setType("Transfer");
+    transaksiTransfer.setBalanceId(balanceIdKe);
+
+    // Update saldo
+    boolean updateDariSuccess = expenseController.updateBalance(balanceIdDari, jumlah, "Pengeluaran");
+    boolean updateKeSuccess = expenseController.updateBalance(balanceIdKe, jumlah, "Pemasukan");
+
+    if (updateDariSuccess && updateKeSuccess) {
+        boolean transferSuccess = expenseController.addTransaction(transaksiTransfer);
+        if (transferSuccess) {
+            // Buat pengeluaran otomatis jika ada biaya admin
+            if (biayaAdmin > 0) {
+                Transaction transaksiAdmin = new Transaction();
+                transaksiAdmin.setDescription("Biaya Admin Transfer dari " + kategoriDari + " ke " + kategoriKe);
+                transaksiAdmin.setAmount(biayaAdmin);
+                transaksiAdmin.setCategory("Lainnya");
+                transaksiAdmin.setDate(tanggal);
+                transaksiAdmin.setUserId(currentUserId);
+                transaksiAdmin.setType("Pengeluaran");
+                transaksiAdmin.setBalanceId(balanceIdDari);
+
+                boolean adminSuccess = expenseController.addTransaction(transaksiAdmin);
+                if (!adminSuccess) {
+                    JOptionPane.showMessageDialog(this, "Gagal mencatat biaya admin. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                boolean updateAdminSuccess = expenseController.updateBalance(balanceIdDari, biayaAdmin, "Pengeluaran");
+                if (!updateAdminSuccess) {
+                    JOptionPane.showMessageDialog(this, "Gagal memperbarui saldo untuk biaya admin. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            JOptionPane.showMessageDialog(this, "Transfer saldo berhasil dicatat!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            mainApp.getDashboardPanel().loadData("Hari Ini");
+            mainApp.showView("dashboard");
+        } else {
+            JOptionPane.showMessageDialog(this, "Gagal mencatat transfer saldo. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Gagal memperbarui saldo. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_catatTransferSaldoButtonActionPerformed
 
     private void biayaAdminTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_biayaAdminTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_biayaAdminTextFieldActionPerformed
 
+    private void jumlahTransferTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jumlahTransferTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jumlahTransferTextFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel biayaAdminLabel;
     private javax.swing.JTextField biayaAdminTextField;
     private javax.swing.JButton catatTransferSaldoButton;
+    private javax.swing.JLabel jumlahTransferLabel;
+    private javax.swing.JTextField jumlahTransferTextField;
     private javax.swing.JComboBox<String> kategoriTransferSaldoDariComboBox;
     private javax.swing.JComboBox<String> kategoriTransferSaldoKeComboBox;
     private javax.swing.JLabel tanggalTransferSaldoLabel;

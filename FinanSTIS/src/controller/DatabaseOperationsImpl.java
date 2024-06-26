@@ -70,7 +70,7 @@ public class DatabaseOperationsImpl implements DatabaseOperations {
     }
 
     @Override
-    public void addTransaction(Transaction transaction) {
+    public boolean addTransaction(Transaction transaction) {
         String sql = "INSERT INTO transactions(type, date, category, amount, description, balance_id, user_id) VALUES(?,?,?,?,?,?,?)";
 
         try (Connection conn = DatabaseHelper.connect();
@@ -83,8 +83,30 @@ public class DatabaseOperationsImpl implements DatabaseOperations {
             pstmt.setInt(6, transaction.getBalanceId());
             pstmt.setInt(7, transaction.getUserId());
             pstmt.executeUpdate();
+
+            // Update balance
+            return updateBalance(transaction.getBalanceId(), transaction.getAmount(), transaction.getType());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateBalance(int balanceId, double amount, String transactionType) {
+        String sql = "UPDATE balances SET amount = amount + ? WHERE id = ?";
+
+        double updateAmount = transactionType.equals("Pengeluaran") ? -amount : amount;
+
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDouble(1, updateAmount);
+            pstmt.setInt(2, balanceId);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
     }
 
@@ -142,6 +164,7 @@ public class DatabaseOperationsImpl implements DatabaseOperations {
         return transactions;
     }
     
+    @Override
     public List<Transaction> getTransactionsByPeriod(int userId, String period) {
         List<Transaction> transactions = new ArrayList<>();
         String sql = "SELECT * FROM transactions WHERE user_id = ? AND date >= ?";
@@ -190,7 +213,26 @@ public class DatabaseOperationsImpl implements DatabaseOperations {
 
         return transactions;
     }
-
-
+    
+    @Override
+    public Balance getBalanceById(int balanceId) {
+        String sql = "SELECT * FROM balances WHERE id = ?";
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, balanceId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Balance balance = new Balance();
+                balance.setId(rs.getInt("id"));
+                balance.setCategory(rs.getString("category"));
+                balance.setAmount(rs.getDouble("amount"));
+                balance.setUserId(rs.getInt("user_id"));
+                return balance;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

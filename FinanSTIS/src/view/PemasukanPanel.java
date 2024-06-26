@@ -4,16 +4,30 @@
  */
 package view;
 
+import controller.ExpenseController;
+import model.Transaction;
+
+import javax.swing.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
  */
 public class PemasukanPanel extends javax.swing.JPanel {
 
+    private ExpenseController expenseController;
+    private FinanSTISApp mainApp;
+    private int currentUserId;
+
     /**
      * Creates new form PemasukanPanel
      */
-    public PemasukanPanel() {
+    public PemasukanPanel(ExpenseController expenseController, FinanSTISApp mainApp, int currentUserId) {
+        this.expenseController = expenseController;
+        this.mainApp = mainApp;
+        this.currentUserId = currentUserId;
         initComponents();
     }
 
@@ -157,6 +171,53 @@ public class PemasukanPanel extends javax.swing.JPanel {
 
     private void catatPemasukanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catatPemasukanButtonActionPerformed
         // TODO add your handling code here:
+        // Mendapatkan nilai dari field input
+        String deskripsi = deskripsiPemasukanTextField.getText();
+        String jumlahStr = jumlahPemasukanTextField.getText();
+        String kategori = (String) kategoriPemasukanComboBox.getSelectedItem();
+        java.util.Date tanggalUtil = PemasukanDateChooser.getDate();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String tanggal = sdf.format(tanggalUtil);
+
+        if (deskripsi.isEmpty() || jumlahStr.isEmpty() || tanggal == null) {
+            JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double jumlah;
+        try {
+            jumlah = Double.parseDouble(jumlahStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Jumlah harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Get balance ID based on category
+        int balanceId = expenseController.getBalanceIdByCategory(currentUserId, kategori);
+
+        Transaction transaksi = new Transaction();
+        transaksi.setDescription(deskripsi);
+        transaksi.setAmount(jumlah);
+        transaksi.setCategory(kategori);
+        transaksi.setDate(tanggal);
+        transaksi.setUserId(currentUserId);
+        transaksi.setType("Pemasukan");
+        transaksi.setBalanceId(balanceId);
+
+        boolean success = expenseController.addTransaction(transaksi);
+        if (success) {
+            boolean updateSuccess = expenseController.updateBalance(transaksi.getBalanceId(), jumlah, "Pemasukan");
+            if (updateSuccess) {
+                JOptionPane.showMessageDialog(this, "Pemasukan berhasil dicatat!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                mainApp.getDashboardPanel().loadData("Hari Ini");
+                mainApp.showView("dashboard");
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal memperbarui saldo. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Gagal mencatat pemasukan. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_catatPemasukanButtonActionPerformed
 
 

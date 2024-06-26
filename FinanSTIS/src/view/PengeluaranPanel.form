@@ -32,6 +32,7 @@
               <Component id="pengeluaranLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="tambahPengeluaranPanel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="22" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -63,10 +64,13 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="deskripsiPengeluaranTextField" max="32767" attributes="0"/>
-                              <Component id="jumlahPengeluaranTextField" pref="300" max="32767" attributes="0"/>
+                              <Component id="jumlahPengeluaranTextField" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="kategoriPeengeluaranComboBox" min="-2" pref="108" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="sumberDanaLabel" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                  <Component id="kategoriSumberComboBox" min="-2" pref="108" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -99,6 +103,8 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="kategoriPengeluaranLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="kategoriPeengeluaranComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="sumberDanaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="kategoriSumberComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -187,6 +193,29 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="catatPengeluaranButtonActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="sumberDanaLabel">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Sumber  :"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="kategoriSumberComboBox">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Tunai"/>
+                <StringItem index="1" value="Bank"/>
+                <StringItem index="2" value="E-Money"/>
+                <StringItem index="3" value="Lainnya"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

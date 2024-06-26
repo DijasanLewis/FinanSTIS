@@ -20,8 +20,10 @@ public interface DatabaseOperations {
     void addBalanceCategory(BalanceCategory category);
     List<BalanceCategory> getAllBalanceCategories();
     void addBalance(Balance balance);
-    void addTransaction(Transaction transaction);
+    boolean addTransaction(Transaction transaction);
+    boolean updateBalance(int balanceId, double amount, String transactionType);
     List<Balance> getAllBalances(int userId);
     List<Transaction> getAllTransactions(int userId);
     List<Transaction> getTransactionsByPeriod(int userId, String period);
+    Balance getBalanceById(int balanceId);
 }

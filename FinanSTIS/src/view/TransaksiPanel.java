@@ -4,18 +4,38 @@
  */
 package view;
 
+import controller.ExpenseController;
+import model.Transaction;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  *
  * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
  */
 public class TransaksiPanel extends javax.swing.JPanel {
 
+    private ExpenseController expenseController;
+    private int currentUserId;
+
     /**
      * Creates new form TransaksiPanel
      */
-    public TransaksiPanel() {
+    public TransaksiPanel(ExpenseController expenseController, int currentUserId) {
+        this.expenseController = expenseController;
+        this.currentUserId = currentUserId;
         initComponents();
+        loadTransactionData();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,76 +46,34 @@ public class TransaksiPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        transaksiPanel = new javax.swing.JPanel();
-        tanggalTransaksiLabel = new javax.swing.JLabel();
-        totalPengeeluaranLabel = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        totalPemasukanLabel = new javax.swing.JLabel();
         riwayatTransaksiLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        transaksiTable = new javax.swing.JTable();
 
-        tanggalTransaksiLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        tanggalTransaksiLabel.setText("Tanggal");
+        riwayatTransaksiLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        riwayatTransaksiLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        riwayatTransaksiLabel.setText("RIWAYAT TRANSAKSI");
 
-        totalPengeeluaranLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        totalPengeeluaranLabel.setText("TotalPengeluaran");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        transaksiTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Kategori Pengeluaran", "JumlahPemasukan", "JumlahPengeluaran"
+                "Tipe", "Tanggal", "Kategori Pengeluaran", "Jumlah", "Deskripsi", "Sumber"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-
-        totalPemasukanLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        totalPemasukanLabel.setText("TotalPemasukan");
-
-        javax.swing.GroupLayout transaksiPanelLayout = new javax.swing.GroupLayout(transaksiPanel);
-        transaksiPanel.setLayout(transaksiPanelLayout);
-        transaksiPanelLayout.setHorizontalGroup(
-            transaksiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, transaksiPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(transaksiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(transaksiPanelLayout.createSequentialGroup()
-                        .addComponent(tanggalTransaksiLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(totalPemasukanLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(totalPengeeluaranLabel)))
-                .addContainerGap())
-        );
-        transaksiPanelLayout.setVerticalGroup(
-            transaksiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(transaksiPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(transaksiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tanggalTransaksiLabel)
-                    .addComponent(totalPengeeluaranLabel)
-                    .addComponent(totalPemasukanLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        riwayatTransaksiLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        riwayatTransaksiLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        riwayatTransaksiLabel.setText("RIWAYAT TRANSAKSI");
+        jScrollPane1.setViewportView(transaksiTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -104,28 +82,57 @@ public class TransaksiPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(transaksiPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(riwayatTransaksiLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE))
+                    .addComponent(riwayatTransaksiLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(riwayatTransaksiLabel)
-                .addGap(16, 16, 16)
-                .addComponent(transaksiPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void loadTransactionData() {
+    List<Transaction> transactions = expenseController.getAllTransactions(currentUserId);
+
+    // Urutkan transaksi berdasarkan tanggal dari terbaru ke terlama
+    transactions.sort((t1, t2) -> {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date1 = sdf.parse(t1.getDate());
+            Date date2 = sdf.parse(t2.getDate());
+            return date2.compareTo(date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    });
+
+    // Buat model tabel dan setel ke transaksiTable
+    DefaultTableModel model = (DefaultTableModel) transaksiTable.getModel();
+    model.setRowCount(0); // Hapus baris yang ada
+
+    for (Transaction transaction : transactions) {
+        Object[] row = {
+            transaction.getType(),
+            transaction.getDate(),
+            transaction.getCategory(),
+            transaction.getAmount(),
+            transaction.getDescription(),
+            expenseController.getCategoryByBalanceId(transaction.getBalanceId())
+        };
+        model.addRow(row);
+    }
+}
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel riwayatTransaksiLabel;
-    private javax.swing.JLabel tanggalTransaksiLabel;
-    private javax.swing.JLabel totalPemasukanLabel;
-    private javax.swing.JLabel totalPengeeluaranLabel;
-    private javax.swing.JPanel transaksiPanel;
+    private javax.swing.JTable transaksiTable;
     // End of variables declaration//GEN-END:variables
 }

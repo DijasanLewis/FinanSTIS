@@ -171,11 +171,17 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="TAMBAH SALDO"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tambahSaldoButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="transferSaldoButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="TRANSFER SALDO"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="transferSaldoButtonActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

@@ -4,19 +4,31 @@
  */
 package view;
 
+import controller.ExpenseController;
+import java.text.SimpleDateFormat;
+import model.Transaction;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Yedija Lewi Suryadi (222212921 - 2KS1 - Politeknik Statistika STIS 2024)
  */
 public class PengeluaranPanel extends javax.swing.JPanel {
 
+    private ExpenseController expenseController;
+    private FinanSTISApp mainApp;
+    private int currentUserId;
+
     /**
      * Creates new form PengeluaranPanel
      */
-    public PengeluaranPanel() {
+    public PengeluaranPanel(ExpenseController expenseController, FinanSTISApp mainApp, int currentUserId) {
+        this.expenseController = expenseController;
+        this.mainApp = mainApp;
+        this.currentUserId = currentUserId;
         initComponents();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,6 +49,8 @@ public class PengeluaranPanel extends javax.swing.JPanel {
         kategoriPeengeluaranComboBox = new javax.swing.JComboBox<>();
         pengeluaranDateChooser = new com.toedter.calendar.JDateChooser();
         catatPengeluaranButton = new javax.swing.JButton();
+        sumberDanaLabel = new javax.swing.JLabel();
+        kategoriSumberComboBox = new javax.swing.JComboBox<>();
 
         pengeluaranLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         pengeluaranLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -76,6 +90,11 @@ public class PengeluaranPanel extends javax.swing.JPanel {
             }
         });
 
+        sumberDanaLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        sumberDanaLabel.setText("Sumber  :");
+
+        kategoriSumberComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tunai", "Bank", "E-Money", "Lainnya" }));
+
         javax.swing.GroupLayout tambahPengeluaranPanelLayout = new javax.swing.GroupLayout(tambahPengeluaranPanel);
         tambahPengeluaranPanel.setLayout(tambahPengeluaranPanelLayout);
         tambahPengeluaranPanelLayout.setHorizontalGroup(
@@ -91,10 +110,13 @@ public class PengeluaranPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(tambahPengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(deskripsiPengeluaranTextField)
-                            .addComponent(jumlahPengeluaranTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addComponent(jumlahPengeluaranTextField)
                             .addGroup(tambahPengeluaranPanelLayout.createSequentialGroup()
                                 .addComponent(kategoriPeengeluaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(sumberDanaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(8, 8, 8)
+                                .addComponent(kategoriSumberComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(tambahPengeluaranPanelLayout.createSequentialGroup()
                         .addComponent(tanggalPengeluaranLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -117,7 +139,9 @@ public class PengeluaranPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tambahPengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(kategoriPengeluaranLabel)
-                    .addComponent(kategoriPeengeluaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(kategoriPeengeluaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sumberDanaLabel)
+                    .addComponent(kategoriSumberComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tambahPengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tanggalPengeluaranLabel)
@@ -143,7 +167,8 @@ public class PengeluaranPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pengeluaranLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tambahPengeluaranPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tambahPengeluaranPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -157,6 +182,59 @@ public class PengeluaranPanel extends javax.swing.JPanel {
 
     private void catatPengeluaranButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catatPengeluaranButtonActionPerformed
         // TODO add your handling code here:
+        // Mendapatkan nilai dari field input
+        String deskripsi = deskripsiPengeluaranTextField.getText();
+        String jumlahStr = jumlahPengeluaranTextField.getText();
+        String kategoriPengeluaran = (String) kategoriPeengeluaranComboBox.getSelectedItem();
+        String kategoriSumber = (String) kategoriSumberComboBox.getSelectedItem();
+        java.util.Date tanggalUtil = pengeluaranDateChooser.getDate();
+
+        // Format tanggal ke string
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String tanggal = sdf.format(tanggalUtil);
+
+        // Validasi input
+        if (deskripsi.isEmpty() || jumlahStr.isEmpty() || tanggal == null) {
+            JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double jumlah;
+        try {
+            jumlah = Double.parseDouble(jumlahStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Jumlah harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Get balance ID based on sumber dana (kategori sumber saldo)
+        int balanceIdSumber = expenseController.getBalanceIdByCategory(currentUserId, kategoriSumber);
+        System.out.println("Balance ID untuk kategori sumber " + kategoriSumber + ": " + balanceIdSumber);
+
+        // Buat transaksi baru
+        Transaction transaksi = new Transaction();
+        transaksi.setDescription(deskripsi);
+        transaksi.setAmount(jumlah);
+        transaksi.setCategory(kategoriPengeluaran);
+        transaksi.setDate(tanggal);
+        transaksi.setUserId(currentUserId);
+        transaksi.setType("Pengeluaran");
+        transaksi.setBalanceId(balanceIdSumber); // Use the balance ID from sumber dana
+
+        // Simpan transaksi ke database
+        boolean success = expenseController.addTransaction(transaksi);
+        if (success) {
+            boolean updateSuccess = expenseController.updateBalance(transaksi.getBalanceId(), jumlah, "Pengeluaran");
+            if (updateSuccess) {
+                JOptionPane.showMessageDialog(this, "Pengeluaran berhasil dicatat!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                mainApp.getDashboardPanel().loadData("Hari Ini");
+                mainApp.showView("dashboard");
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal memperbarui saldo. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Gagal mencatat pengeluaran. Coba lagi.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_catatPengeluaranButtonActionPerformed
 
 
@@ -168,8 +246,10 @@ public class PengeluaranPanel extends javax.swing.JPanel {
     private javax.swing.JTextField jumlahPengeluaranTextField;
     private javax.swing.JComboBox<String> kategoriPeengeluaranComboBox;
     private javax.swing.JLabel kategoriPengeluaranLabel;
+    private javax.swing.JComboBox<String> kategoriSumberComboBox;
     private com.toedter.calendar.JDateChooser pengeluaranDateChooser;
     private javax.swing.JLabel pengeluaranLabel;
+    private javax.swing.JLabel sumberDanaLabel;
     private javax.swing.JPanel tambahPengeluaranPanel;
     private javax.swing.JLabel tanggalPengeluaranLabel;
     // End of variables declaration//GEN-END:variables

@@ -20,21 +20,23 @@ public class DashboardPanel extends javax.swing.JPanel {
 
     private ExpenseController expenseController;
     private int currentUserId;
+    private FinanSTISApp mainApp;
 
     /**
      * Creates new form DashboardPanel
      */
-    public DashboardPanel(ExpenseController expenseController, int currentUserId) {
+    public DashboardPanel(ExpenseController expenseController, int currentUserId, FinanSTISApp mainApp) {
         this.expenseController = expenseController;
         this.currentUserId = currentUserId;
+        this.mainApp = mainApp;
         initComponents();
-        loadData("30 Hari");
+        loadData("Hari Ini");
     }
 
     /**
      * Load data dari database dan perbarui tampilan.
      */
-    private void loadData(String period) {
+    public void loadData(String period) {
         System.out.println("Memuat saldo untuk user id: " + currentUserId);
         // Muat saldo
         List<Balance> balances = expenseController.getAllBalances(currentUserId);
@@ -191,8 +193,18 @@ public class DashboardPanel extends javax.swing.JPanel {
         lainnyaLabel.setText("  Lain-lain   :");
 
         tambahSaldoButton.setText("TAMBAH SALDO");
+        tambahSaldoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tambahSaldoButtonActionPerformed(evt);
+            }
+        });
 
         transferSaldoButton.setText("TRANSFER SALDO");
+        transferSaldoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transferSaldoButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout saldoPanelLayout = new javax.swing.GroupLayout(saldoPanel);
         saldoPanel.setLayout(saldoPanelLayout);
@@ -415,6 +427,7 @@ public class DashboardPanel extends javax.swing.JPanel {
 
     private void tambahPengeluaranButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahPengeluaranButtonActionPerformed
         // TODO add your handling code here:
+        mainApp.showView("pengeluaran");
     }//GEN-LAST:event_tambahPengeluaranButtonActionPerformed
 
     private void exportPDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFButtonActionPerformed
@@ -427,6 +440,16 @@ public class DashboardPanel extends javax.swing.JPanel {
         System.out.println("Periode Pengeluaran Dipilih: " + selectedPeriod);
         loadData(selectedPeriod);
     }//GEN-LAST:event_periodePengeluaranComboBoxActionPerformed
+
+    private void tambahSaldoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahSaldoButtonActionPerformed
+        // TODO add your handling code here:
+        mainApp.showView("pemasukan");
+    }//GEN-LAST:event_tambahSaldoButtonActionPerformed
+
+    private void transferSaldoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferSaldoButtonActionPerformed
+        // TODO add your handling code here:
+        mainApp.showView("transfer");
+    }//GEN-LAST:event_transferSaldoButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

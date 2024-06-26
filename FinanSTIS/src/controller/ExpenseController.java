@@ -28,8 +28,16 @@ public class ExpenseController {
         databaseOperations.addBalance(balance);
     }
 
-    public void addTransaction(Transaction transaction) {
-        databaseOperations.addTransaction(transaction);
+    public boolean addTransaction(Transaction transaction) {
+        boolean success = databaseOperations.addTransaction(transaction);
+        if (success) {
+            return updateBalance(transaction.getBalanceId(), transaction.getAmount(), transaction.getType());
+        }
+        return false;
+    }
+
+    public boolean updateBalance(int balanceId, double amount, String transactionType) {
+        return databaseOperations.updateBalance(balanceId, amount, transactionType);
     }
 
     public List<Balance> getAllBalances(int userId) {
@@ -43,4 +51,20 @@ public class ExpenseController {
     public List<Transaction> getTransactionsByPeriod(int userId, String period) {
         return databaseOperations.getTransactionsByPeriod(userId, period);
     }
+    
+    public int getBalanceIdByCategory(int userId, String category) {
+        List<Balance> balances = getAllBalances(userId);
+        for (Balance balance : balances) {
+            if (balance.getCategory().equals(category)) {
+                return balance.getId();
+            }
+        }
+        return -1; // Return -1 if not found
+    }
+    
+    public String getCategoryByBalanceId(int balanceId) {
+        Balance balance = databaseOperations.getBalanceById(balanceId);
+        return balance != null ? balance.getCategory() : "N/A";
+    }
+
 }

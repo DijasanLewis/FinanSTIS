@@ -24,7 +24,12 @@ public class FinanSTISApp extends javax.swing.JFrame {
     private boolean isLoggedIn = false;
     private int currentUser = -1;
     private ExpenseController expenseController;
-    
+    private DashboardPanel dashboardPanel;
+    private PemasukanPanel pemasukanPanel;
+    private PengeluaranPanel pengeluaranPanel;
+    private TransferPanel transferPanel;
+    private TransaksiPanel transaksiPanel;
+
     public FinanSTISApp() {
         setTitle("FinanSTIS");
         setSize(600, 750);
@@ -47,44 +52,78 @@ public class FinanSTISApp extends javax.swing.JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Tambahkan panel ke mainPanel
+        // Tambahkan login panel terlebih dahulu
         mainPanel.add(new LoginPanel(this), "login");
-        mainPanel.add(new PemasukanPanel(), "pemasukan");
-        mainPanel.add(new PengeluaranPanel(), "pengeluaran");
-        mainPanel.add(new TransferPanel(), "transfer");
-        mainPanel.add(new TransaksiPanel(), "transaksi");
 
         add(mainPanel);
     }
 
-    // Set status login
     public void setLoggedIn(boolean loggedIn) {
         this.isLoggedIn = loggedIn;
     }
 
-    // Get status login
     public boolean isLoggedIn() {
         return isLoggedIn;
     }
 
-    // Set ID pengguna saat ini
     public void setCurrentUser(int userId) {
         this.currentUser = userId;
     }
 
-    // Get ID pengguna saat ini
     public int getCurrentUser() {
         return currentUser;
     }
 
-    // Tampilkan view berdasarkan nama view
+    public DashboardPanel getDashboardPanel() {
+        if (dashboardPanel == null) {
+            dashboardPanel = new DashboardPanel(expenseController, currentUser, this);
+        }
+        return dashboardPanel;
+    }
+
+    public PemasukanPanel getPemasukanPanel() {
+        if (pemasukanPanel == null) {
+            pemasukanPanel = new PemasukanPanel(expenseController, this, currentUser);
+        }
+        return pemasukanPanel;
+    }
+
+    public PengeluaranPanel getPengeluaranPanel() {
+        if (pengeluaranPanel == null) {
+            pengeluaranPanel = new PengeluaranPanel(expenseController, this, currentUser);
+        }
+        return pengeluaranPanel;
+    }
+
+    public TransferPanel getTransferPanel() {
+        if (transferPanel == null) {
+            transferPanel = new TransferPanel(expenseController, this, currentUser);
+        }
+        return transferPanel;
+    }
+
+    public TransaksiPanel getTransaksiPanel() {
+        if (transaksiPanel == null) {
+            transaksiPanel = new TransaksiPanel(expenseController, currentUser);
+        }
+        return transaksiPanel;
+    }
+
     public void showView(String viewName) {
         if (viewName.equals("dashboard")) {
-            mainPanel.add(new DashboardPanel(expenseController, currentUser), "dashboard");
+            mainPanel.add(getDashboardPanel(), "dashboard");
+        } else if (viewName.equals("pemasukan")) {
+            mainPanel.add(getPemasukanPanel(), "pemasukan");
+        } else if (viewName.equals("pengeluaran")) {
+            mainPanel.add(getPengeluaranPanel(), "pengeluaran");
+        } else if (viewName.equals("transfer")) {
+            mainPanel.add(getTransferPanel(), "transfer");
+        } else if (viewName.equals("transaksi")) {
+            mainPanel.add(getTransaksiPanel(), "transaksi");
         }
         cardLayout.show(mainPanel, viewName);
     }
-    
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
